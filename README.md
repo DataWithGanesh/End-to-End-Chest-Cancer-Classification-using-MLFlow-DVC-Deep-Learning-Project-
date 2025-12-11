@@ -36,7 +36,7 @@ This project automates CT scan classification into:
 
 ## VGG16 Architecture (Used)
 
-```
+```bash
 Input (224x224x3)
 ↓
 VGG16 Convolution Base (Frozen)
@@ -52,7 +52,7 @@ Dense(2, Softmax)
 
 ## Project Architecture
 
-```
+```bash
 End-to-End-Chest-Cancer-Classification/
 │
 ├── .github/workflows/ # CI/CD pipeline
@@ -264,6 +264,96 @@ DVC
 - OS: Ubuntu 22.04 LTS
 - Instance Type: t2.micro (free-tier)
 - Key Pair: Create or use existing SSH key
-  Security Group:
+- Security Group:
   -- Port 22 (SSH)
   -- Port 5000 (Flask API)
+
+#### Step 2: Connect to EC2
+
+```bash
+ssh -i yourkey.pem ubuntu@<EC2-PUBLIC-IP>
+```
+
+#### Step 3: Install Docker
+
+```bash
+# Optional: Update packages
+sudo apt-get update -y
+sudo apt-get upgrade -y
+
+# Install Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+
+# Allow current user to run Docker without sudo
+sudo usermod -aG docker ubuntu
+newgrp docker
+```
+
+#### Step 4: Configure EC2 as Self-Hosted Runner (Optional)
+
+- GitHub → Settings → Actions → Runners → New self-hosted runner
+- Select OS → Follow commands provided to register runner
+- This allows GitHub Actions to deploy directly to EC2.
+
+### 3. GitHub Repository Setup
+
+#### Step 1: Add Secrets
+
+Go to GitHub → Settings → Secrets → Actions:
+
+```bash
+Secret Name	                Value
+AWS_ACCESS_KEY_ID	      Your IAM Access Key
+AWS_SECRET_ACCESS_KEY	  Your IAM Secret Key
+AWS_REGION	              us-east-1
+AWS_ECR_LOGIN_URI	      566373416292.dkr.ecr.us-east-1.amazonaws.com
+ECR_REPOSITORY_NAME	      chest-cancer-app
+```
+
+### 4. Docker Setup
+
+#### Dockerfile
+
+```bash
+# Base image
+FROM python:3.8-slim-buster
+
+# Install AWS CLI
+RUN apt update -y && apt install awscli -y
+
+# Set working directory
+WORKDIR /app
+
+# Copy project files
+COPY . /app
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Run Flask app
+CMD ["python3", "app.py"]
+```
+
+#### Build & Run Locally
+
+```bash
+docker build -t chest-cancer-app .
+docker run -d -p 5000:5000 chest-cancer-app
+```
+
+Access app:
+
+```bash
+http://localhost:5000
+```
+
+### 5. GitHub Actions CI/CD Workflow
+
+main.yaml file
+
+### 6. Access Application
+
+```bash
+http://<EC2-PUBLIC-IP>:5000
+```
