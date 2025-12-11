@@ -1,5 +1,20 @@
 # End-to-End-Chest-Cancer-Classification-using-MLFlow-DVC-Deep-Learning-Project-
 
+Deep Learning • VGG16 Transfer Learning • Flask API • Docker • AWS EC2 • ECR • GitHub Actions CI/CD
+
+## Overview
+
+This project implements an **end-to-end Deep Learning pipeline** for **Chest CT Scan Classification** (Adenocarcinoma vs Normal) using **VGG16 Transfer Learning**.
+
+The project is **production-ready** with:
+
+- Modular ML pipeline
+- MLflow for experiment tracking
+- DVC for pipeline orchestration
+- Flask API for predictions
+- Docker containerization
+- AWS EC2 deployment with CI/CD via GitHub Actions
+
 ## Workflows to update the file
 
 1. Update config.yaml
