@@ -102,6 +102,45 @@ End-to-End-Chest-Cancer-Classification/
 └── Dockerfile
 ```
 
+This structure follows best practices used in MLOps-based ML systems.
+
+## Tech Stack
+
+### Programming & Deep Learning
+
+- Python 3.8
+- TensorFlow / Keras
+- VGG16 Transfer Learning
+- NumPy, Pandas, OpenCV
+
+### Web & API
+
+- Flask (REST API)
+- HTML templates (optional for web frontend)
+
+### MLOps & Engineering Tools
+
+- MLflow – Experiment tracking, metrics, and model logging
+- DVC – Data & model versioning, pipeline orchestration
+- Docker – Containerization for reproducibility
+- AWS EC2 – Cloud hosting and scalable deployment
+- AWS ECR – Docker image registry
+- GitHub Actions – CI/CD automation
+
+## Features
+
+- End-to-End Deep Learning Pipeline: From data ingestion to model deployment.
+- VGG16 Transfer Learning: Pretrained CNN for feature extraction and improved accuracy.
+- Automated Data Processing: Includes data ingestion, validation, and transformation.
+- Model Training & Evaluation: Modular scripts for training, validation, and metrics logging.
+- Flask API: Provides real-time predictions via REST endpoints.
+- Dockerized Application: Containerized for portability and reproducibility.
+- Cloud Deployment: Hosted on AWS EC2 with optional CI/CD.
+- MLflow Integration: Tracks experiments, metrics, and artifacts.
+- DVC Integration: Version control for datasets, models, and pipeline reproducibility.
+- CI/CD with GitHub Actions: Automatic build, push, and deployment workflow.
+- Secure Deployment: AWS IAM policies and Dockerized environments ensure security.
+
 ## Workflows to update the file
 
 1. Update config.yaml
@@ -188,3 +227,43 @@ DVC
 - Its very lite weight for POC only
 - lite weight expriements tracker
 - It can perform Orchestration (Creating Pipelines)
+
+## AWS CI/CD Deployment Guide – Chest Cancer Classification
+
+**Objective:** Automatically build, push, and deploy your Dockerized Flask application for chest cancer classification to AWS using CI/CD.
+
+### 1. AWS Setup
+
+#### Step 1: Login to AWS Console
+
+- Go to AWS Console
+- Ensure your account has administrator access.
+
+#### Step 2: Create IAM User for Deployment
+
+1. Go to IAM → Users → Add User
+2. Create a programmatic access user.
+3. Attach the following policies:
+
+- AmazonEC2FullAccess – for managing EC2 instances
+- AmazonEC2ContainerRegistryFullAccess – for ECR Docker registry access
+
+4. Save the Access Key ID and Secret Access Key.
+
+#### Step 3: Create ECR Repository
+
+1. Go to ECR → Create repository
+2. Name: chest-cancer-app
+3. Note the repository URI:
+   566373416292.dkr.ecr.us-east-1.amazonaws.com/chest-cancer-app
+
+### 2. EC2 Setup
+
+#### Step 1: Launch EC2
+
+- OS: Ubuntu 22.04 LTS
+- Instance Type: t2.micro (free-tier)
+- Key Pair: Create or use existing SSH key
+  Security Group:
+  -- Port 22 (SSH)
+  -- Port 5000 (Flask API)
