@@ -15,6 +15,41 @@ The project is **production-ready** with:
 - Docker containerization
 - AWS EC2 deployment with CI/CD via GitHub Actions
 
+## Problem Statement
+
+Early detection of **Adenocarcinoma**, a type of lung cancer, is critical.  
+This project automates CT scan classification into:
+
+- **Adenocarcinoma**
+- **Normal**
+
+## Why VGG16?
+
+**VGG16** is a deep CNN pretrained on ImageNet that provides:
+
+- Strong feature extraction for medical images
+- Faster training via transfer learning
+- Prevention of overfitting for small datasets
+- High stability and reproducibility
+
+**Approach:** Freeze convolutional layers, train a custom dense head for classification.\
+
+## VGG16 Architecture (Used)
+
+```
+Input (224x224x3)
+↓
+VGG16 Convolution Base (Frozen)
+↓
+Flatten Layer
+↓
+Dense(256, ReLU)
+↓
+Dropout(0.5)
+↓
+Dense(2, Softmax)
+```
+
 ## Workflows to update the file
 
 1. Update config.yaml
