@@ -50,6 +50,58 @@ Dropout(0.5)
 Dense(2, Softmax)
 ```
 
+## Project Architecture
+
+```
+End-to-End-Chest-Cancer-Classification/
+│
+├── .github/workflows/ # CI/CD pipeline
+│ └── .gitkeep
+│
+├── config/
+│ ├── config.yaml # Pipeline configs
+│ └── secrets.yaml # Optional secrets
+│
+├── research/
+│ └── trials.ipynb # Experimentation notebooks
+│
+├── templates/
+│ └── index.html # Flask frontend (if needed)
+│
+├── src/
+│ └── cnnClassifier/
+│ ├── init.py
+│ ├── components/
+│ │ ├── data_ingestion.py
+│ │ ├── data_validation.py
+│ │ ├── data_transformation.py
+│ │ ├── model_trainer.py # VGG16 model
+│ │ └── model_evaluation.py
+│ │
+│ ├── config/
+│ │ ├── init.py
+│ │ └── configuration.py
+│ │
+│ ├── pipeline/
+│ │ └── training_pipeline.py
+│ │
+│ ├── entity/
+│ │ └── config_entity.py
+│ │
+│ ├── utils/
+│ │ └── common.py
+│ │
+│ └── constants/
+│ └── init.py
+│
+├── app.py # Flask API for prediction
+├── dvc.yaml # DVC pipeline
+├── params.yaml # Hyperparameters
+├── requirements.txt
+├── setup.py
+└── Dockerfile
+```
+
 ## Workflows to update the file
 
 1. Update config.yaml
